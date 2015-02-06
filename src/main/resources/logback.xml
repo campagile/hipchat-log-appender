@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="hipchatAppender" class="org.cad.logging.HipchatAppender">
+        <hipchatConfiguration class="org.cad.logging.HipchatConfiguration">
+            <url>https://api.hipchat.com</url>
+            <endpoint>v1/rooms/message</endpoint>
+            <token>hipchat-token-here</token>
+            <room>DevOps-logging</room>
+            <color>random</color>
+            <from>DevOps</from>
+        </hipchatConfiguration>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>.%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </layout>
+	</appender>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>.%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+			</Pattern>
+		</layout>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>TRACE</level>
+		</filter>
+	</appender>
+
+	<root>
+		<level value="debug" />
+		<appender-ref ref="hipchatAppender" />
+	</root>
+</configuration>
