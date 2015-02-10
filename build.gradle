@@ -9,5 +9,6 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.10'
     compile 'ch.qos.logback:logback-classic:1.1.2'
-    testCompile "junit:junit-dep:4.11"
+    testCompile 'junit:junit-dep:4.11'
+    testCompile 'org.mockito:mockito-all:1.10.19'
 }

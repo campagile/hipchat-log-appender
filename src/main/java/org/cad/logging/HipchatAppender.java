@@ -8,6 +8,8 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
 
     private Layout layout;
     private HipchatConfiguration hipchatConfiguration;
+    private TimerConfiguration timerConfiguration;
+
     private LoggingQueue loggingQueue;
     private TimedLoggingStreamer timedLoggingStreamer;
 
@@ -18,9 +20,13 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
             return;
         }
         loggingQueue = new LoggingQueue();
-        timedLoggingStreamer = new TimedLoggingStreamer();
-        timedLoggingStreamer.init(loggingQueue, System.out, new HipchatOutputter(hipchatConfiguration));
+        timedLoggingStreamer = new TimedLoggingStreamer(timerConfiguration);
+        timedLoggingStreamer.init(loggingQueue, createOutputter());
         super.start();
+    }
+
+    Outputter createOutputter() {
+        return new HipchatOutputter(hipchatConfiguration);
     }
 
     @Override
@@ -42,5 +48,13 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
 
     public void setHipchatConfiguration(HipchatConfiguration hipchatConfiguration) {
         this.hipchatConfiguration = hipchatConfiguration;
+    }
+
+    public TimerConfiguration getTimerConfiguration() {
+        return timerConfiguration;
+    }
+
+    public void setTimerConfiguration(TimerConfiguration timerConfiguration) {
+        this.timerConfiguration = timerConfiguration;
     }
 }

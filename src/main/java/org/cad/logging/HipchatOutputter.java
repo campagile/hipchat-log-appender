@@ -1,14 +1,11 @@
 package org.cad.logging;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class HipchatOutputter {
+public class HipchatOutputter implements Outputter {
 
     private HipchatConfiguration config;
 
@@ -16,7 +13,8 @@ public class HipchatOutputter {
         this.config = config;
     }
 
-    void write(String output) throws Exception {
+    @Override
+    public void write(String output) throws IOException {
         URL obj = new URL(config.getUrl() + "/" + config.getEndpoint());
         HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 

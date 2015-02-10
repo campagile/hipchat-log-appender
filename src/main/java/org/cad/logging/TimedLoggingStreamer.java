@@ -1,6 +1,5 @@
 package org.cad.logging;
 
-import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -8,23 +7,26 @@ import java.util.concurrent.TimeUnit;
 
 public class TimedLoggingStreamer {
 
-    void init(LoggingQueue queue, OutputStream outputStream, HipchatOutputter hipchatOutputter) {
-        Streamer streamer = new Streamer(queue, outputStream, hipchatOutputter);
+    private TimerConfiguration timerConfiguration;
+
+    public TimedLoggingStreamer(TimerConfiguration timerConfiguration) {
+        this.timerConfiguration = timerConfiguration;
+    }
+
+    void init(LoggingQueue queue, Outputter outputter) {
+        Streamer streamer = new Streamer(queue, outputter);
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(streamer, 5, 2, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(streamer, timerConfiguration.getInitialDelay(), timerConfiguration.getPeriod(), TimeUnit.SECONDS);
     }
 
     private static class Streamer implements Runnable {
 
         private LoggingQueue queue;
-        //TODO: Temporary output for development purposes
-        private OutputStream outputStream;
-        private HipchatOutputter hipchatOutputter;
+        private Outputter outputter;
 
-        public Streamer(LoggingQueue queue, OutputStream outputStream, HipchatOutputter hipchatOutputter) {
+        public Streamer(LoggingQueue queue, Outputter outputter) {
             this.queue = queue;
-            this.outputStream = outputStream;
-            this.hipchatOutputter = hipchatOutputter;
+            this.outputter = outputter;
         }
 
         @Override
@@ -32,8 +34,7 @@ public class TimedLoggingStreamer {
             List<String> latestLogging = queue.getLatestLogging();
             for (String log : latestLogging) {
                 try {
-                    hipchatOutputter.write(log);
-                    outputStream.write(log.getBytes());
+                    outputter.write(log);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
