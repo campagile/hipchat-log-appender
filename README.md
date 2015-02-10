@@ -14,4 +14,13 @@ Features
 Installation
 -----------
 
-    TODO
+To use the log appender the jar file should be added as runtime dependency in your project.
+
+Prerequisites:
+* Your project should use logback as logger.
+
+TODO
+-----------
+
+* Make this library available in a public central repository.
+* Version numbering the output library.
