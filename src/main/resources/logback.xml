@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<appender name="hipchatAppender" class="org.cad.logging.HipchatAppender">
-        <hipchatConfiguration class="org.cad.logging.HipchatConfiguration">
+	<appender name="hipchatAppender" class="com.github.campagile.logging.HipchatAppender">
+        <hipchatConfiguration class="com.github.campagile.logging.HipchatConfiguration">
             <url>https://api.hipchat.com</url>
             <endpoint>v1/rooms/message</endpoint>
             <token>hipchat-token-here</token>
@@ -9,7 +9,7 @@
             <color>random</color>
             <from>DevOps</from>
         </hipchatConfiguration>
-        <timerConfiguration class="org.cad.logging.TimerConfiguration">
+        <timerConfiguration class="com.github.campagile.logging.TimerConfiguration">
             <period>5</period>
             <initialDelay>10</initialDelay>
         </timerConfiguration>

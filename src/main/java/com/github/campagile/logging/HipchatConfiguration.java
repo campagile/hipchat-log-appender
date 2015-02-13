@@ -1,4 +1,4 @@
-package org.cad.logging;
+package com.github.campagile.logging;
 
 public class HipchatConfiguration {
     private String url;

@@ -1,4 +1,4 @@
-package org.cad.logging;
+package com.github.campagile.logging;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;

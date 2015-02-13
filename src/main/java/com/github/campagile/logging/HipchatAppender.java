@@ -1,4 +1,4 @@
-package org.cad.logging;
+package com.github.campagile.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
@@ -9,20 +9,28 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
     private Layout layout;
     private HipchatConfiguration hipchatConfiguration;
     private TimerConfiguration timerConfiguration;
-
     private LoggingQueue loggingQueue;
     private TimedLoggingStreamer timedLoggingStreamer;
 
     @Override
     public void start() {
-        if(this.layout == null) {
+        if(layout == null) {
             addError("No layout set for the appender named ["+ name +"].");
             return;
         }
-        loggingQueue = new LoggingQueue();
-        timedLoggingStreamer = new TimedLoggingStreamer(timerConfiguration);
-        timedLoggingStreamer.init(loggingQueue, createOutputter());
+        if(hipchatConfiguration == null) {
+            addError("No hipchat configuration set for the appender named ["+ name +"].");
+            return;
+        }
+        initializeQueueAndOutputStreamer();
         super.start();
+    }
+
+    private void initializeQueueAndOutputStreamer() {
+        loggingQueue = new LoggingQueue();
+        timedLoggingStreamer =
+                new TimedLoggingStreamer(timerConfiguration != null ? timerConfiguration : TimerConfiguration.DEFAULT);
+        timedLoggingStreamer.init(loggingQueue, createOutputter());
     }
 
     Outputter createOutputter() {
@@ -34,24 +42,12 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
         loggingQueue.addToQueue(layout.doLayout(event));
     }
 
-    public Layout getLayout() {
-        return layout;
-    }
-
     public void setLayout(Layout layout) {
         this.layout = layout;
     }
 
-    public HipchatConfiguration getHipchatConfiguration() {
-        return hipchatConfiguration;
-    }
-
     public void setHipchatConfiguration(HipchatConfiguration hipchatConfiguration) {
         this.hipchatConfiguration = hipchatConfiguration;
-    }
-
-    public TimerConfiguration getTimerConfiguration() {
-        return timerConfiguration;
     }
 
     public void setTimerConfiguration(TimerConfiguration timerConfiguration) {

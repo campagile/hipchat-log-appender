@@ -1,4 +1,4 @@
-package org.cad.logging;
+package com.github.campagile.logging;
 
 import java.util.List;
 import java.util.concurrent.Executors;

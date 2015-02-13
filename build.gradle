@@ -1,5 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
+ext.artifactBaseName = 'HipchatLogAppender'
+
+group = 'com.github.campagile'
+version = 1.0
 sourceCompatibility = 1.7
 
 repositories {
@@ -11,4 +16,23 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit-dep:4.11'
     testCompile 'org.mockito:mockito-all:1.10.19'
+}
+
+task sourcesJar(type: Jar){
+    baseName artifactBaseName
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        plugin(MavenPublication) {
+            from components.java
+            artifactId 'HipchatLogAppender'
+        }
+    }
 }

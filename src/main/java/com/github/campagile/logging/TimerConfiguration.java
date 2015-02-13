@@ -1,8 +1,10 @@
-package org.cad.logging;
+package com.github.campagile.logging;
 
 public class TimerConfiguration {
     private int period = 10;
     private int initialDelay = 5;
+
+    static final TimerConfiguration DEFAULT = new TimerConfiguration();
 
     public TimerConfiguration() {}
 
