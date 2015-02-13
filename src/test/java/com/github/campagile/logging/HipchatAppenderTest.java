@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 public class HipchatAppenderTest {
 
-    private static final String LOG_MSG = "doing some info logging";
+    private static final String LOG_MSG = "log message";
     private LoggerContext loggerContext;
 
     private Outputter outputter = mock(Outputter.class);
@@ -35,7 +35,6 @@ public class HipchatAppenderTest {
 
         verify(outputter, never()).write(LOG_MSG);
     }
-
 
     @Test
     public void startAppenderFailsWhenNoHipchatConfigurationDefined() throws Exception {
