@@ -6,7 +6,9 @@ import java.util.Deque;
 import java.util.List;
 
 public class LoggingQueue {
-    private static final int MAX_QUEUE_SIZE = 10000;
+    private static final int MAX_QUEUE_SIZE = 1000;
+    private static final int MAX_LOGGING_SIZE = 5000;
+
     private Deque<String> queue = new ArrayDeque<String>();
 
     void addToQueue(String log) {
@@ -17,8 +19,12 @@ public class LoggingQueue {
 
     List<String> getLatestLogging() {
         List<String> latest = new ArrayList<String>();
-        int counter = 10;
-        while(counter-- > 0 && queue.peek() != null) {
+        int totalSize = 0;
+        while(queue.peek() != null) {
+            totalSize += queue.peek().length();
+            if(totalSize > MAX_LOGGING_SIZE) {
+                break;
+            }
             latest.add(queue.pop());
         }
         return latest;
