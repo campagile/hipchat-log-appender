@@ -1,5 +1,7 @@
 package com.github.campagile.logging;
 
+import org.junit.Test;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import java.io.IOException;
@@ -10,6 +12,10 @@ import static org.mockito.Mockito.mock;
 public class HipchatOutputterTest {
     private HttpsURLConnection connection = mock(HttpsURLConnection.class);
 
+    @Test
+    public void sendOutput() {
+
+    }
 
     private class StubbedHipchatOutputter extends HipchatOutputter {
 
