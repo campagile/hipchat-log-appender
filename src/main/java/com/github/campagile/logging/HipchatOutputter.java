@@ -25,10 +25,10 @@ public class HipchatOutputter implements Outputter {
         con.setDoInput(true);
         con.setDoOutput(true);
 
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(createRequestBody(output));
-        wr.flush();
-        wr.close();
+        DataOutputStream outputStream = new DataOutputStream(con.getOutputStream());
+        outputStream.writeBytes(createRequestBody(output));
+        outputStream.flush();
+        outputStream.close();
 
         int responseCode = con.getResponseCode();
         System.out.println("Response Code : " + responseCode);
