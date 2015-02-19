@@ -18,9 +18,16 @@ To use the log appender the jar file should be added as runtime dependency in yo
 
 Prerequisites:
 * Your project should use logback as logger.
+* You have a hipchat account and admin key.
 
 TODO
 -----------
 
 * Make this library available in a public central repository.
 * Version numbering the output library.
+
+DOCUMENTATION
+--------------
+
+HipchatLogAppender uses the rooms/message resource from the Hipchat API, https://www.hipchat.com/docs/api/method/rooms/message
+

@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 public class TimedLoggingStreamer {
 
     private TimerConfiguration timerConfiguration;
-
     public TimedLoggingStreamer(TimerConfiguration timerConfiguration) {
         this.timerConfiguration = timerConfiguration;
     }

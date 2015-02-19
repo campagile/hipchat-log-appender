@@ -18,7 +18,7 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
             addError("No layout set for the appender named ["+ name +"].");
             return;
         }
-        if(hipchatConfiguration == null) {
+        if(hipchatConfiguration == null || !hipchatConfiguration.isConfigurationComplete()) {
             addError("No hipchat configuration set for the appender named ["+ name +"].");
             return;
         }

@@ -23,7 +23,7 @@ public class HipchatAppenderTest {
     public void setup() {
         loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         appender.setTimerConfiguration(timerConfig);
-        appender.setHipchatConfiguration(new HipchatConfiguration());
+        appender.setHipchatConfiguration(createHipchatConfiguration());
     }
 
     @Test
@@ -39,6 +39,17 @@ public class HipchatAppenderTest {
     @Test
     public void startAppenderFailsWhenNoHipchatConfigurationDefined() throws Exception {
         appender.setHipchatConfiguration(null);
+        Logger logger = createLoggerWithLayoutAndAppender(createLayout(), appender);
+
+        logger.info(LOG_MSG);
+        Thread.sleep(1500);
+
+        verify(outputter, never()).write(LOG_MSG);
+    }
+
+    @Test
+    public void startAppenderFailsWhenHipchatConfigurationIncomplete() throws Exception {
+        appender.setHipchatConfiguration(new HipchatConfiguration());
         Logger logger = createLoggerWithLayoutAndAppender(createLayout(), appender);
 
         logger.info(LOG_MSG);
@@ -84,13 +95,24 @@ public class HipchatAppenderTest {
         Outputter createOutputter() {
             return outputter;
         }
-    }
 
+    }
     private TimerConfiguration createTimerConfiguration() {
         TimerConfiguration timerConfig = new TimerConfiguration();
         timerConfig.setPeriod(1);
         timerConfig.setInitialDelay(0);
         return timerConfig;
+    }
+
+    private HipchatConfiguration createHipchatConfiguration() {
+        HipchatConfiguration config = new HipchatConfiguration();
+        config.setColor("color");
+        config.setEndpoint("endpoint");
+        config.setFrom("from");
+        config.setRoom("room");
+        config.setToken("token");
+        config.setUrl("url");
+        return config;
     }
 
 }

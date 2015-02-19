@@ -17,4 +17,12 @@ public class TimerConfigurationTest {
         assertThat(config.getInitialDelay(), is(20));
         assertThat(config.getPeriod(), is(10));
     }
+
+    @Test
+    public void useDefaultValuesWhenSuppliedValuesInvalid() {
+        config.setInitialDelay(-10);
+        config.setPeriod(0);
+
+        assertThat(config.getInitialDelay(), is(5));
+        assertThat(config.getPeriod(), is(10));    }
 }

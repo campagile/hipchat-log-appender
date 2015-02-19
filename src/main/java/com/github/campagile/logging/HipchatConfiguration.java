@@ -57,4 +57,17 @@ public class HipchatConfiguration {
     public void setToken(String token) {
         this.token = token;
     }
+
+    boolean isConfigurationComplete() {
+        boolean complete = true;
+
+        complete = complete && (url != null && !url.isEmpty());
+        complete = complete && (endpoint != null && !endpoint.isEmpty());
+        complete = complete && (room != null && !room.isEmpty());
+        complete = complete && (color != null && !color.isEmpty());
+        complete = complete && (from != null && !from.isEmpty());
+        complete = complete && (token != null && !token.isEmpty());
+
+        return complete;
+    }
 }

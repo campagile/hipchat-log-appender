@@ -13,7 +13,9 @@ public class TimerConfiguration {
     }
 
     public void setInitialDelay(int initialDelay) {
-        this.initialDelay = initialDelay;
+        if(initialDelay >= 0) {
+            this.initialDelay = initialDelay;
+        }
     }
 
     public int getPeriod() {
@@ -21,6 +23,8 @@ public class TimerConfiguration {
     }
 
     public void setPeriod(int period) {
-        this.period = period;
+        if(period >= 1) {
+            this.period = period;
+        }
     }
 }

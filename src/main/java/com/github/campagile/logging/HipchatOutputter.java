@@ -16,7 +16,7 @@ public class HipchatOutputter implements Outputter {
     @Override
     public void write(String output) throws IOException {
         URL obj = new URL(config.getUrl() + "/" + config.getEndpoint());
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        HttpsURLConnection con = openConnection(obj);
 
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -44,6 +44,10 @@ public class HipchatOutputter implements Outputter {
 
         System.out.println(response);
 
+    }
+
+    HttpsURLConnection openConnection(URL obj) throws IOException {
+        return (HttpsURLConnection) obj.openConnection();
     }
 
     private String createRequestBody(String output) {
