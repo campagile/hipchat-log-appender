@@ -30,7 +30,7 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
         loggingQueue = new LoggingQueue();
         timedLoggingStreamer =
                 new TimedLoggingStreamer(timerConfiguration != null ? timerConfiguration : TimerConfiguration.DEFAULT);
-        timedLoggingStreamer.init(loggingQueue, createOutputter());
+        timedLoggingStreamer.init(this, loggingQueue, createOutputter());
     }
 
     Outputter createOutputter() {

@@ -2,6 +2,7 @@ package com.github.campagile.logging;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -14,36 +15,50 @@ public class HipchatOutputter implements Outputter {
     }
 
     @Override
-    public void write(String output) throws IOException {
-        URL obj = new URL(config.getUrl() + "/" + config.getEndpoint());
-        HttpsURLConnection con = openConnection(obj);
+    public void write(String output) {
+        URL url = null;
+        try {
+            url = new URL(config.getUrl() + "/" + config.getEndpoint());
+        } catch (MalformedURLException e) {
+            throw new IncorrectUrl(config.getUrl() + "/" + config.getEndpoint());
+        }
+        HttpsURLConnection con = null;
+        try {
+            con = openConnection(url);
+            con.setRequestMethod("POST");
+        } catch (IOException e) {
+            throw new ErrorOpeningConnection(config.getUrl() + "/" + config.getEndpoint(), e);
+        }
 
-        con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Content-Length", "" + Integer.toString(output.getBytes().length));
         con.setRequestProperty("Content-Language", "en-US");
         con.setDoInput(true);
         con.setDoOutput(true);
 
-        DataOutputStream outputStream = new DataOutputStream(con.getOutputStream());
-        outputStream.writeBytes(createRequestBody(output));
-        outputStream.flush();
-        outputStream.close();
+        try {
+            DataOutputStream outputStream = new DataOutputStream(con.getOutputStream());
+            outputStream.writeBytes(createRequestBody(output));
+            outputStream.flush();
+            outputStream.close();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("Response Code : " + responseCode);
+            int responseCode = con.getResponseCode();
+            if(responseCode != 200) {
+                throw new UnexpectedResponse(responseCode);
+            }
+            System.out.println("Response Code : " + responseCode);
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        String response = "";
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            String response = "";
 
-        while ((inputLine = in.readLine()) != null) {
-            response += inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                response += inputLine;
+            }
+            in.close();
+        } catch (IOException e) {
+            throw new ErrorInHipchatCommunication(e);
         }
-        in.close();
-
-        System.out.println(response);
-
     }
 
     HttpsURLConnection openConnection(URL obj) throws IOException {
