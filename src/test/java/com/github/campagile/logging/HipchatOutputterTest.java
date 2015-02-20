@@ -30,7 +30,7 @@ public class HipchatOutputterTest {
     @Test
     public void sendOutput() throws IOException {
         //outputter.write("msg1");
-        //Testing github jenkins plugin 1
+        //Testing github jenkins plugin 2
 
     }
 
