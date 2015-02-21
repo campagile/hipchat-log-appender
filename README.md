@@ -23,6 +23,7 @@ Prerequisites:
 TODO
 -----------
 
+* Blocking: Internally a Timer service is used. This has to be shutdown when the application shuts down. Currently the jvm keeps running.
 * Make this library available in a public central repository.
 * Version numbering the output library.
 

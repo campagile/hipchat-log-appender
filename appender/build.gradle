@@ -1,0 +1,29 @@
+apply plugin: 'maven-publish'
+
+archivesBaseName = 'hipchat-logappender'
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.10'
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+    testCompile 'junit:junit-dep:4.11'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+}
+
+task sourcesJar(type: Jar){
+    baseName archivesBaseName
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        plugin(MavenPublication) {
+            from components.java
+            artifactId 'hipchat-logappender'
+        }
+    }
+}

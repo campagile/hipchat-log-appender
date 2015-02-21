@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="hipchatAppender" class="com.github.campagile.logging.HipchatAppender">
+        <hipchatConfiguration class="com.github.campagile.logging.HipchatConfiguration">
+            <url>https://api.hipchat.com</url>
+            <endpoint>v1/rooms/message</endpoint>
+            <token>hipchat-token-here</token>
+            <room>DevOps-logging</room>
+            <color>random</color>
+            <from>DevOps</from>
+        </hipchatConfiguration>
+        <timerConfiguration class="com.github.campagile.logging.TimerConfiguration">
+            <period>5</period>
+            <initialDelay>10</initialDelay>
+        </timerConfiguration>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>.%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </layout>
+	</appender>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>.%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+			</Pattern>
+		</layout>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>TRACE</level>
+		</filter>
+	</appender>
+
+	<root>
+		<level value="debug" />
+		<appender-ref ref="consoleAppender" />
+	</root>
+</configuration>

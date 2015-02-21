@@ -14,6 +14,7 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
 
     @Override
     public void start() {
+        System.out.println("Starting hipchat appender");
         if(layout == null) {
             addError("No layout set for the appender named ["+ name +"].");
             return;
@@ -26,6 +27,13 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
         super.start();
     }
 
+    @Override
+    public void stop() {
+        System.out.println("Stopping timer now");
+        timedLoggingStreamer.stopTimer();
+        super.stop();
+    }
+
     private void initializeQueueAndOutputStreamer() {
         loggingQueue = new LoggingQueue();
         timedLoggingStreamer =
@@ -34,7 +42,7 @@ public class HipchatAppender extends AppenderBase<ILoggingEvent> {
     }
 
     Outputter createOutputter() {
-        return new HipchatOutputter(hipchatConfiguration);
+        return new HipchatOutputter(hipchatConfiguration); //new SystemOutOutputter();
     }
 
     @Override

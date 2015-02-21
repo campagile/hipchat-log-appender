@@ -1,2 +1,4 @@
 rootProject.name = 'HipchatLogAppender'
 
+include 'appender'
+include 'example'

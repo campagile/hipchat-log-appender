@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class TimedLoggingStreamer {
 
     private TimerConfiguration timerConfiguration;
+    private ScheduledExecutorService service;
 
     public TimedLoggingStreamer(TimerConfiguration timerConfiguration) {
         this.timerConfiguration = timerConfiguration;
@@ -17,7 +18,7 @@ public class TimedLoggingStreamer {
 
     void init(ContextAwareBase logContext, LoggingQueue queue, Outputter outputter) {
         Streamer streamer = new Streamer(logContext, queue, outputter);
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service = Executors.newScheduledThreadPool(1);
         service.scheduleAtFixedRate(streamer, timerConfiguration.getInitialDelay(), timerConfiguration.getPeriod(), TimeUnit.SECONDS);
     }
 
@@ -44,5 +45,9 @@ public class TimedLoggingStreamer {
                 }
             }
         }
+    }
+
+    void stopTimer() {
+        service.shutdown();
     }
 }
