@@ -4,8 +4,8 @@
         <hipchatConfiguration class="com.github.campagile.logging.HipchatConfiguration">
             <url>https://api.hipchat.com</url>
             <endpoint>v1/rooms/message</endpoint>
-            <token>hipchat-token-here</token>
-            <room>DevOps-logging</room>
+            <token>hipchat token here</token>
+            <room>Logging</room>
             <color>random</color>
             <from>DevOps</from>
         </hipchatConfiguration>
@@ -29,7 +29,7 @@
 	</appender>
 
 	<root>
-		<level value="debug" />
+		<level value="error" />
 		<appender-ref ref="hipchatAppender" />
 	</root>
 </configuration>

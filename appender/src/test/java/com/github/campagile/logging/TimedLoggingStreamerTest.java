@@ -1,6 +1,5 @@
 package com.github.campagile.logging;
 
-import ch.qos.logback.core.spi.ContextAwareBase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ public class TimedLoggingStreamerTest {
     private LoggingQueue queue = mock(LoggingQueue.class);
     private Outputter outputter = mock(Outputter.class);
     private List<String> latestLogging = Arrays.asList("msg1");
-    private ContextAwareBase logContext = mock(ContextAwareBase.class);
+    private LatestLoggingContext logContext = mock(LatestLoggingContext.class);
 
     @Before
     public void before() {
@@ -27,9 +26,9 @@ public class TimedLoggingStreamerTest {
 
     @Test
     public void timedLogging() throws InterruptedException, IOException {
-        when(queue.getLatestLogging()).thenReturn(latestLogging);
+        when(logContext.getLatestLogging()).thenReturn(latestLogging);
 
-        timedLoggingStreamer.init(logContext, queue, outputter);
+        timedLoggingStreamer.init(logContext, outputter);
 
         Thread.sleep(2500);
         verify(outputter, times(3)).write("msg1");
@@ -37,10 +36,10 @@ public class TimedLoggingStreamerTest {
 
     @Test
     public void addErrorToLogContextWhenOutputterFails() throws InterruptedException {
-        when(queue.getLatestLogging()).thenReturn(latestLogging);
+        when(logContext.getLatestLogging()).thenReturn(latestLogging);
         doThrow(new Outputter.ErrorOpeningConnection("error", new IOException())).when(outputter).write(anyString());
 
-        timedLoggingStreamer.init(logContext, queue, outputter);
+        timedLoggingStreamer.init(logContext, outputter);
 
         Thread.sleep(500);
         verify(logContext).addError(eq("error"), any(Outputter.ErrorOpeningConnection.class));
