@@ -1,3 +1,5 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 archivesBaseName = 'hipchat-logappender'
@@ -15,8 +17,17 @@ task sourcesJar(type: Jar){
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
 artifacts {
-    archives sourcesJar
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
 }
 
 publishing {
@@ -24,6 +35,46 @@ publishing {
         plugin(MavenPublication) {
             from components.java
             artifactId 'hipchat-logappender'
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'hipchat-logappender'
+                packaging 'jar'
+                description 'Hipchat log appender is a logging facility for logback to bring logging directly from your (production)code to Hipchat.'
+                url 'https://github.com/campagile/hipchat-log-appender'
+
+                scm {
+                    url 'scm:git@github.com:campagile/hipchat-log-appender.git'
+                    connection 'scm:git@github.com:campagile/hipchat-log-appender.git'
+                    developerConnection 'scm:git@github.com:campagile/hipchat-log-appender.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'campagile'
+                        name 'Robert van de Camp'
+                    }
+                }
+            }
         }
     }
 }

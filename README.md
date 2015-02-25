@@ -14,19 +14,14 @@ Features
 Installation
 -----------
 
-To use the log appender the jar file should be added as runtime dependency in your project.
+To use the hipchat log appender the dependency should be added as runtime dependency in your project.
+Available in Maven Central: 'com.github.campagile:hipchat-logappender:0.3.2'
 
 Prerequisites:
 * Your project should use logback as logger.
 * You have a hipchat account and admin key.
 
 Look at the example source folder, for a ready-to-use configuration.
-
-TODO
------------
-
-* Make this library available in a public central repository.
-* Version numbering the output library.
 
 DOCUMENTATION
 --------------

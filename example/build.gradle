@@ -1,10 +1,5 @@
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.10'
     compile 'ch.qos.logback:logback-classic:1.1.2'
-    compile 'com.github.campagile:hipchat-logappender:0.3'
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
+    compile 'com.github.campagile:hipchat-logappender:0.3.2'
 }

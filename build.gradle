@@ -4,7 +4,7 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     group = 'com.github.campagile'
-    version = 0.3
+    version = '0.3.2'
     sourceCompatibility = 1.8
 
     repositories {
