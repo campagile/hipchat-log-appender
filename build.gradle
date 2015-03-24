@@ -4,8 +4,9 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     group = 'com.github.campagile'
-    version = '0.3.2'
-    sourceCompatibility = 1.8
+    version = '0.3.3'
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     repositories {
         mavenCentral()

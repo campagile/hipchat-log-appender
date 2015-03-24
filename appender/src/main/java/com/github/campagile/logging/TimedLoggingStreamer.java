@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+//TODO: RvdC -> Cleanup sysouts.
 public class TimedLoggingStreamer {
 
     private TimerConfiguration timerConfiguration;
@@ -22,7 +23,6 @@ public class TimedLoggingStreamer {
     }
 
     void startTimer() {
-        System.out.println("Starting the timer");
         Streamer streamer = new Streamer(logContext, this.outputter);
         service = Executors.newScheduledThreadPool(1);
         service.scheduleAtFixedRate(streamer, timerConfiguration.getInitialDelay(), timerConfiguration.getPeriod(), TimeUnit.SECONDS);
@@ -51,7 +51,6 @@ public class TimedLoggingStreamer {
     }
 
     void stopTimer() {
-        System.out.println("Stopping the timer");
         service.shutdown();
     }
 
